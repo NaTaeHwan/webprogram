@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>게시글 작성</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+    <%- include('navbar.ejs')%>
+    <div class="container mt-4">
+        <%# post방식의 savesql요청 %>
+        <form action="/savesql" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="exampleFormControlInput1" class="form-label">제목</label>
+                <input type="text" name="title" class="form-control" id="exampleFormControlInput1">
+            </div>
+            <p></p>
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1" class="form-label">내용</label>
+                <textarea name="content" rows="10" class="form-control" id="exampleFormControlTextarea1"></textarea>
+            </div>
+            <p></p>
+            <!-- 파일 업로드를 처리하는 input 추가 -->
+            <div class="container mt-3">
+                <label for="exampleFormControlFile1" class="form-label">파일 첨부</label>
+                <input type="file" class="form-control-file" name="file" id="exampleFormControlFile1">
+            </div>
+            <p></p>
+            <%# 요청을 넘길 버튼 %>
+            <button type="submit" class="btn btn-primary">저장</button>
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>기말 프로젝트</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  </head>
+  <body>
+    <%- include('navbar.ejs')%>
+    
+    <div class="card container mt-1 align-self-auto" style="width: max-width  ">  
+        <h2><%=my%>님의 친구목록</h2>
+        <%# for루프를 사용하여 넘겨받은 data의 내용을 순환 %>
+        <% if(data.length==0){%>
+          <div class="col-md-2 mb-2">
+            <!-- col-md-4: 중간 화면 이상에서 4개의 카드가 가로로 나열됨 -->
+            <!-- mb-4: 아래쪽 여백 추가 -->
+            <div class="card" style="width: 15rem;">
+                <div class="card-body">
+                    <h6 >등록된 친구가 없습니다.</h6>
+                </div>
+            </div>
+        </div>
+        <%}%>
+      <div class="row">
+        <% for (let i = 0; i < data.length; i++) { %>
+            <div class="col-md-2 mb-auto pe-auto">
+                <!-- col-md-4: 중간 화면 이상에서 4개의 카드가 가로로 나열됨 -->
+                <!-- mb-4: 아래쪽 여백 추가 -->
+                <div class="card container mb-auto pe-auto" style="width: max-content">
+                    <div class="card-body mb-auto pe-auto">
+                        <h2 class="card-title" href="/viewpost/<%=data[i].friendID%>">ID : <%= data[i].friendID %></h2>
+                        <p></p>
+                        <%if(loginStatus==true){%>
+                        <button class='delete btn btn-outline-danger' data-id='<%= data[i].friendID %>'>삭제</button>
+                        <%}%>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </div>
+    </div>
+    
+      <div class="card container mt-5" style="width: fit-content ">
+      <form action="./addfriend" method="post">
+        <h4>다른 블로그 친구추가하기</h4>
+      <br>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">친구ID</label>
+        <input type="text" class="form-control-sm" name="newFriendID" >
+      </div>
+      
+      <button type="submit" class="btn btn-primary">추가</button>
+    </form>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
+
+    <script>
+      $('.delete').click(function(e){//삭제 버튼을 눌렀을 때
+let delid = e.target.dataset.id;//게시글 버튼이 있던것의 데이터 베이스 상 id
+let item = $(this);//내용
+$.ajax({
+type: 'post',//post요청
+url: '/deletefriend',//요청 이름
+data: { fid: delid }//server로 넘길 데이터는 친구의 id
+}).done(function(result){
+item.parent('td').parent('tr').remove();
+}).fail(function(xhr, textStatus, errorThrown){
+console.log('친구 삭제 실패');
+console.log(xhr, textStatus, errorThrown);
+});
+});
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  </body>
+</html>
